@@ -1,6 +1,9 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from pages.sign_in_page import Sign_In_Page
+from pages.menu import Menu_Elemnt
+from pages.settings_page import Settings_Page
 
 
 class Subscription_Page:
@@ -13,10 +16,19 @@ class Subscription_Page:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 5)
+        self.sign_in_page = Sign_In_Page
+        self.menu = Menu_Elemnt
+        self.settings = Settings_Page
 
 
     def url_verify(self):
-        self.wait.until(EC.url_to_be(self.SP_URL), message=f'Routed to the wrong page')
+        if self.driver.current_url == 'https://soft.reelly.io/sign-in':
+            self.driver.find_element(*self.sign_in_page.CONTINUE_BUTTON).click()
+            self.driver.find_element(*self.menu.SETTINGS_BUTTON).click()
+            self.driver.find_element(*self.settings.SP_BUTTON).click()
+            self.wait.until(EC.url_to_be(self.SP_URL), message=f'Routed to the wrong page')
+        else:
+            self.wait.until(EC.url_to_be(self.SP_URL), message=f'Routed to the wrong page')
 
 
     def header_verify(self):

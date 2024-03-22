@@ -1,8 +1,13 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.firefox import GeckoDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
 
 from app.application import Application
 
@@ -11,25 +16,48 @@ def browser_init(context):
     """
     :param context: Behave context
     """
+    #Chrome window instance
     #driver_path = ChromeDriverManager().install()
     #service = Service(driver_path)
     #context.driver = webdriver.Chrome(service=service)
 
-    driver_path = '/home/sam/Documents/internship_project/geckodriver'
-    service = Service(driver_path)
-    context.driver = webdriver.Firefox(service=service)
 
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920x1080")
-    service = Service(ChromeDriverManager().install())
-    context.driver = webdriver.Chrome(service=service,
-                                      options=chrome_options
-                                      )
+    #Chrome Headless
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--window-size=1920x1080")
+    # service = Service(ChromeDriverManager().install())
+    # context.driver = webdriver.Chrome(service=service,
+    #                                   options=chrome_options
+    #                                   )
 
-    context.driver.maximize_window()
+    #Firefox window instance
+    #driver_path = GeckoDriverManager().install()
+    #service = Service(driver_path)
+    #context.driver = webdriver.Firefox(service=service)
 
-    context.driver.maximize_window()
+    #Firefox headless
+    # options = FirefoxOptions()
+    # options.add_argument('--headless')
+    # options.add_argument('--window-size=1920x1080')
+    # service = FirefoxService(GeckoDriverManager().install())
+    # context.driver = webdriver.Firefox(
+    #    options=options,
+    #    service=service
+    # )
+    #Firefox solution for the Linux operating systems
+    install_dir = "/snap/firefox/current/usr/lib/firefox"
+    driver_loc = os.path.join(install_dir, "geckodriver")
+    binary_loc = os.path.join(install_dir, "firefox")
+
+    service = FirefoxService(driver_loc)
+    opts = webdriver.FirefoxOptions()
+    opts.binary_location = binary_loc
+    context.driver = webdriver.Firefox(service=service, options=opts)
+
+    #context.driver.maximize_window()
+
+    #context.driver.maximize_window()
     context.driver.implicitly_wait(4)
 
     context.app = Application(context.driver)
