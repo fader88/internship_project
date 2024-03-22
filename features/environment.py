@@ -22,19 +22,23 @@ def browser_init(context):
     #context.driver = webdriver.Chrome(service=service)
 
 
-    #Chrome Headless
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument("--headless")
-    # chrome_options.add_argument("--window-size=1920x1080")
-    # service = Service(ChromeDriverManager().install())
-    # context.driver = webdriver.Chrome(service=service,
-    #                                   options=chrome_options
-    #                                   )
+    # Chrome Headless
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--window-size=1920x1080")
+    service = Service(ChromeDriverManager().install())
+    context.driver = webdriver.Chrome(service=service,
+                                      options=chrome_options
+                                      )
+
+
 
     #Firefox window instance
     #driver_path = GeckoDriverManager().install()
     #service = Service(driver_path)
     #context.driver = webdriver.Firefox(service=service)
+
+
 
     #Firefox headless
     # options = FirefoxOptions()
@@ -45,15 +49,18 @@ def browser_init(context):
     #    options=options,
     #    service=service
     # )
-    #Firefox solution for the Linux operating systems
-    install_dir = "/snap/firefox/current/usr/lib/firefox"
-    driver_loc = os.path.join(install_dir, "geckodriver")
-    binary_loc = os.path.join(install_dir, "firefox")
 
-    service = FirefoxService(driver_loc)
-    opts = webdriver.FirefoxOptions()
-    opts.binary_location = binary_loc
-    context.driver = webdriver.Firefox(service=service, options=opts)
+
+    #Firefox solution for the Linux operating systems
+    # install_dir = "/snap/firefox/current/usr/lib/firefox"
+    # driver_loc = os.path.join(install_dir, "geckodriver")
+    # binary_loc = os.path.join(install_dir, "firefox")
+    #
+    # service = FirefoxService(driver_loc)
+    # opts = webdriver.FirefoxOptions()
+    # opts.binary_location = binary_loc
+    # context.driver = webdriver.Firefox(service=service, options=opts)
+
 
     #context.driver.maximize_window()
 
