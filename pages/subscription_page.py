@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class Subscription_Page:
@@ -10,12 +12,12 @@ class Subscription_Page:
 
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 5)
 
 
     def url_verify(self):
-         expected_url = self.SP_URL
-         actual_url = self.driver.current_url
-         assert expected_url in actual_url, f'Routed to the wrong page'
+        self.wait.until(EC.url_to_be(self.SP_URL), message=f'Routed to the wrong page')
+
 
     def header_verify(self):
         expected_title = 'Subscription & payments'
@@ -31,4 +33,5 @@ class Subscription_Page:
         actual_button = self.driver.find_element(*self.UPGRADE_PLAN_BUTTON).text
         expected_button = 'Upgrade plan'
         assert expected_button in actual_button, f'Upgrade plan button is not present'
+        self.driver.implicitly_wait(4)
 
