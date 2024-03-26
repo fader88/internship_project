@@ -2,3 +2,5 @@ allure-behave
 behave
 selenium
 webdriver-manager
+browserstack-local >= 1.2.3
+browserstack-sdk

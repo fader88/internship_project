@@ -16,6 +16,26 @@ def browser_init(context):
     """
     :param context: Behave context
     """
+
+    bs_user = '****************'
+    bs_key = '*************'
+    url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+
+    options = Options()
+    bstack_options = {
+        'os': 'Windows',
+        'osVersion': '11',
+        'browserName': 'Chrome',
+        'browserVersion': 'latest',
+        'resolution': '1920x1080'
+        }
+    options.set_capability('bstack:options', bstack_options)
+
+
+    context.driver = webdriver.Remote(command_executor=url, options=options)
+    context.driver.set_window_size(1920, 1080)
+
+
     #Chrome window instance
     #driver_path = ChromeDriverManager().install()
     #service = Service(driver_path)
@@ -23,13 +43,13 @@ def browser_init(context):
 
 
     # Chrome Headless
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920x1080")
-    service = Service(ChromeDriverManager().install())
-    context.driver = webdriver.Chrome(service=service,
-                                      options=chrome_options
-                                      )
+    #chrome_options = webdriver.ChromeOptions()
+    #chrome_options.add_argument("--headless")
+    #chrome_options.add_argument("--window-size=1920x1080")
+    #service = Service(ChromeDriverManager().install())
+    #context.driver = webdriver.Chrome(service=service,
+    #                                 options=chrome_options
+    #                                  )
 
 
 
